@@ -15,8 +15,8 @@ namespace DataEntery
     public partial class WebForm1 : System.Web.UI.Page
     {
         int userId;
-        int getDebitAmt = 0;
-        int getCreditAmt = 0;
+        Decimal getDebitAmt = 0;
+        Decimal getCreditAmt = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -56,7 +56,7 @@ namespace DataEntery
                 cleanDataTempTable(userId);
                 //loadData(userId);
 
-                gridDisplayRecord.Enabled = false;
+                gridDisplayRecords.Enabled = false;
 
             }
         }
@@ -254,7 +254,7 @@ namespace DataEntery
                 {
                     amt = Convert.ToDecimal(dataReader["amt"].ToString());
                     getFieldName = dataReader["column_has_amt"].ToString();
-                    MessageBox.Show(getFieldName + ":" + amt);
+                    //MessageBox.Show(getFieldName + ":" + amt);
                 }
                 dict.Add(getFieldName,amt);
             }
@@ -272,7 +272,7 @@ namespace DataEntery
         public void updateAmt(Dictionary<string,decimal> dict,int userId,int dataId)
         {
             string amtUpdate = "UPDATE TempData set "+ dict.Keys.First()+ " = "+ dict.Values.First()+" where DataId = "+dataId+ " and DataUser = "+userId;
-            MessageBox.Show(amtUpdate);
+            //MessageBox.Show(amtUpdate);
             string connetionString;
             SqlConnection conn;
             SqlCommand command;
@@ -283,7 +283,8 @@ namespace DataEntery
             int i = command.ExecuteNonQuery();
             if (i > 0)
             {
-                MessageBox.Show(i + "Record Updated");
+                //MessageBox.Show(i + "Record Updated");
+                Console.WriteLine("Record is inserted");
             }
 
             conn.Close();
@@ -303,8 +304,8 @@ namespace DataEntery
             DataSet ds = new DataSet();
             sda.Fill(ds);
 
-            gridDisplayRecord.DataSource = ds;
-            gridDisplayRecord.DataBind();
+            gridDisplayRecords.DataSource = ds;
+            gridDisplayRecords.DataBind();
             conn.Close();
         }
 
@@ -349,8 +350,8 @@ namespace DataEntery
 
         protected void buttonProceed2_Click(object sender, EventArgs e)
         {
-            getCreditAmt = int.Parse(textCredit.Text);
-            getDebitAmt = int.Parse(textDebit.Text);
+            getCreditAmt = Decimal.Parse(textCredit.Text);
+            getDebitAmt = Decimal.Parse(textDebit.Text);
             if (getCreditAmt > 0 && getDebitAmt > 0)
             {
                 MessageBox.Show("Please enter either credit or debit amount");
@@ -401,6 +402,12 @@ namespace DataEntery
                     updateAmt(dict, userId, dataId);
                 }
                 loadData(userId);
+
+                insetRecordDataTable(userId);
+                cleanDataTempTable(userId);
+                textDataNo.Text = getMaxDataNo().ToString();
+
+
             }
 
         }
