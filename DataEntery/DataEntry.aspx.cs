@@ -119,6 +119,7 @@ namespace DataEntery
             return newDataNO;
         }
 
+
         public int getCustId(string selectedBank)
         {
             int custId = 0;
@@ -148,6 +149,7 @@ namespace DataEntery
 
             return custId;
         }
+
 
         public ArrayList getListOfAccounts()
         {
@@ -266,7 +268,7 @@ namespace DataEntery
 
             return dict;
         }
- 
+
         public void updateAmt(Dictionary<string,decimal> dict,int userId,int dataId)
         {
             string amtUpdate = "UPDATE TempData set "+ dict.Keys.First()+ " = "+ dict.Values.First()+" where DataId = "+dataId+ " and DataUser = "+userId;
@@ -423,7 +425,7 @@ namespace DataEntery
                 //MessageBox.Show(i + "Data Saved");
             }
             conn.Close ();
-        }
+            }
 
         protected void linkView_Click(object sender, EventArgs e)
         {
